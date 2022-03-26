@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { sign } from "jsonwebtoken";
 import config from "../config/config";
 import { UserInterface } from "../model/user";
 import { UserRepoInterface } from "../repo/user";
@@ -53,7 +53,7 @@ export class UserService implements UserServiceInterface {
 			email: user.email
 		};
 
-		return jwt.sign(payload, config.JWT_SECRET, { expiresIn: config.JWT_EXPIRATION });
+		return sign(payload, config.JWT_SECRET, { algorithm: "HS256", expiresIn: config.JWT_EXPIRATION });
 	}
 }
 
