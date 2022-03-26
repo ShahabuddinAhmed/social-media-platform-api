@@ -1,5 +1,5 @@
 import { Model } from "mongoose";
-import { UpdateResult, DeleteResult } from "mongodb";
+// import { UpdateResult, DeleteResult } from "mongodb";
 import { PostInterface } from "../model/post";
 
 export interface PostRepoInterface {
@@ -7,8 +7,8 @@ export interface PostRepoInterface {
     getByUserID(userID: string): Promise<PostInterface | null>;
     get(skip: number, limit: number): Promise<PostInterface[]>;
     count(): Promise<number>;
-    updateByID(postID: string, toUpdate: PostInterface): Promise<UpdateResult>;
-    deleteByID(postID: string): Promise<DeleteResult>;
+    updateByID(postID: string, toUpdate: PostInterface): Promise<any>;
+    deleteByID(postID: string): Promise<any>;
 }
 
 export class PostRepo implements PostRepoInterface {
@@ -25,18 +25,18 @@ export class PostRepo implements PostRepoInterface {
     }
 
     public async get(skip: number, limit: number): Promise<PostInterface[]> {
-        return this.postModel.find({}, { skip, limit });
+        return this.postModel.find({ skip, limit });
     }
 
     public async count(): Promise<number> {
         return this.postModel.count();
     }
 
-    public async updateByID(postID: string, toUpdate: PostInterface): Promise<UpdateResult> {
+    public async updateByID(postID: string, toUpdate: PostInterface) {
         return this.postModel.updateOne({ _id: postID }, toUpdate);
     }
 
-    public async deleteByID(postID: string): Promise<DeleteResult> {
+    public async deleteByID(postID: string) {
         return this.postModel.deleteOne({ _id: postID });
     }
 }
