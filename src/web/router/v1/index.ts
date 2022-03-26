@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { UserControllerInterface } from "../../controller/user";
 import { PostControllerInterface } from "../../controller/post";
+import { authenticated } from "../../middleware/auth";
 import { newUserRouter } from "./user";
 import { newPostRouter } from "./post";
 import { newHealthRouter } from "./health";
@@ -10,7 +11,7 @@ export const newV1Router = async (userController: UserControllerInterface, postC
     const v1 = Router();
     v1.use("/v1/health", await newHealthRouter());
     v1.use("/v1/user", await newUserRouter(userController));
-    v1.use("/v1/post", await newPostRouter(postController));
+    v1.use("/v1/post", authenticated, await newPostRouter(postController));
 
     v1.use("*", (req, res) => {
         res.status(404).send({
