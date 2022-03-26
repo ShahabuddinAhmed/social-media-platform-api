@@ -129,7 +129,7 @@ export class PostController extends Controller implements PostControllerInterfac
             limit: number().integer().optional()
         });
 
-		const { error, value: typeCastedValue } = schema.validate(req.body, { abortEarly: false });
+		const { error, value: typeCastedValue } = schema.validate(req.query, { abortEarly: false });
         if (error) {
             return await this.sendResponse(400, "E_INVALID_DATA", "Please fill up all the required fields.",
                 null, error.details, res
