@@ -1,16 +1,16 @@
 import { Router } from "express";
 import { UserControllerInterface } from "../../controller/user";
-import { SiteControllerInterface } from "../../controller/site";
+import { PostControllerInterface } from "../../controller/post";
 import { newUserRouter } from "./user";
-import { newSiteRouter } from "./site";
+import { newPostRouter } from "./post";
 import { newHealthRouter } from "./health";
 
 
-export const newV1Router = async (userController: UserControllerInterface, siteController: SiteControllerInterface): Promise<Router> => {
+export const newV1Router = async (userController: UserControllerInterface, postController: PostControllerInterface): Promise<Router> => {
     const v1 = Router();
     v1.use("/v1/health", await newHealthRouter());
     v1.use("/v1/user", await newUserRouter(userController));
-    v1.use("/v1/site", await newSiteRouter(siteController));
+    v1.use("/v1/post", await newPostRouter(postController));
 
     v1.use("*", (req, res) => {
         res.status(404).send({
